@@ -3,10 +3,12 @@
 //  PFA
 //
 //  Created by Steven Le on 8/19/17.
-//  Copyright © 2017 Steven Le. All rights reserved.
+//  Copyright © 2017 Hung Le & Vince Pham. All rights reserved.
 //
 
 import UIKit
+
+var planningMode = false
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
