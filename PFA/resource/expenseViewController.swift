@@ -12,61 +12,27 @@ import UIKit
 class expenseViewController: UIViewController, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource
 {
 
-    // The expense record is saved in an array that holds 5 sub-arrays of the components of an expense entry, the constant below defines the incdices of each sub-array
-    let AMOUNT      = 0
-    let DATE        = 1
-    let PAYMENTFORM = 2
-    let FREQUENCY   = 3
-    let DESCRIPTION = 4
-
     @IBOutlet var mainView: UIView!
-    
     @IBOutlet weak var pageTitle: UILabel!
-    
     @IBOutlet weak var expenseTable: UITableView!
-   
     @IBOutlet weak var formattedAmountField: UITextField!
-    
     @IBOutlet weak var paymentFormField: UITextField!
-    
     @IBOutlet weak var viewForInput: UIView!
-    
     @IBOutlet weak var CancelOrDeleteButton: UIButton!
-    
     @IBOutlet weak var dateField: UITextField!
-    
     @IBOutlet weak var datePickerView: UIView!
-    
     @IBOutlet weak var datePicker: UIDatePicker!
-    
     @IBOutlet weak var frequencyPicker: UIPickerView!
-    
     @IBOutlet weak var freqPickerView: UIView!
-    
     @IBOutlet weak var frequencyField: UITextField!
-    
     @IBOutlet weak var paymentFormPickerView: UIView!
-    
     @IBOutlet weak var paymentFormPicker: UIPickerView!
-    
     @IBOutlet weak var newPaymentFormView: UIView!
-    
     @IBOutlet weak var newPaymentFormField: UITextField!
-    
     @IBOutlet weak var rawAmountField: UITextField!
-    
     @IBOutlet weak var descriptionField: UITextField!
-    
-    /* 5 sub arrays for expense's components
-    var amountArray : NSMutableArray = []
-    var dateArray : NSMutableArray = []
-    var paymentFormArray : NSMutableArray = []
-    var frequencyArray : NSMutableArray = []
-    var descriptionArray : NSMutableArray = []*/
-    
-    // the main array that holds the sub-arrays
+    // the main array that holds the expense entries
     var expenseArray = [Expense]()
-    
     var row: NSInteger = 0 // the row in the table cell on which we are currently working
     var formatter : NumberFormatter = NumberFormatter() // formatter for amount of money
     var dateFormatter: DateFormatter = DateFormatter()  // formatter for date
@@ -76,26 +42,9 @@ class expenseViewController: UIViewController, UITextFieldDelegate, UITableViewD
     let userDefaults: UserDefaults? =  UserDefaults.standard // save user data
     
     
-    /*required init(coder aDecoder: NSCoder)
-    {
-        self.formatter = NSNumberFormatter()
-        super.init(coder: aDecoder)
-    }*/
-    
     override func viewDidLoad() // Method called after the view loads
     {
         super.viewDidLoad()
-        
-        
-        // put the 5 sub-arrays into the main array
-        //expenseArray.addObjectsFromArray([amountArray,dateArray,paymentFormArray,frequencyArray,descriptionArray])
-        
-        //expenseArray = [Expense]()
-        
-        // load user's data,  if available
-        //userDefaults?.removeObjectForKey("expenseArray")
-        
-        //userDefaults?.removePersistentDomain(forName: Bundle.main.bundleIdentifier! )
         
         if(userDefaults != nil ){
             if let savedPaymentForms = userDefaults?.object(forKey: "paymentForms") as? [String]
@@ -143,12 +92,10 @@ class expenseViewController: UIViewController, UITextFieldDelegate, UITableViewD
         }
     }
     
-    
-    // Not to concern
     override func viewWillAppear(_ animated: Bool)
     {
         super.viewWillAppear(animated)
-        
+        // load the respective arrays depending on whether planning mode is on
         if planningMode
         {
             expenseArray = [Expense]()
@@ -164,7 +111,6 @@ class expenseViewController: UIViewController, UITextFieldDelegate, UITableViewD
         expenseTable.reloadData()
     }
     
-    // Not to concern
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -240,7 +186,7 @@ class expenseViewController: UIViewController, UITextFieldDelegate, UITableViewD
         var amountString: String = String(expenseArray[row].amount)
         let dateString: String = expenseArray[row].date
         let padValue = amountString.characters.count > 6 ? 0 : 0
-        amountString = amountString.padding(toLength: 25 - amountString.characters.count + padValue, withPad:" ", startingAt: 0)
+        amountString = amountString.padding(toLength: 24 - amountString.characters.count + padValue, withPad:" ", startingAt: 0)
         let displayedString = NSString(format: "$%@         %@", amountString, dateString)
         
         cell.textLabel?.text = displayedString as String
@@ -269,6 +215,19 @@ class expenseViewController: UIViewController, UITextFieldDelegate, UITableViewD
         
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            row = self.expenseArray.count - 1 - indexPath.row
+            self.removeExpense()
+            self.expenseTable.reloadData() // reload tableview
+            self.updateUserDefaults() // update user default
+        }
+    }
+    
     func toggleEditMode() // Toggle the input view between new input view and edit view
     {
         editMode = editMode ? false : true
@@ -288,10 +247,10 @@ class expenseViewController: UIViewController, UITextFieldDelegate, UITableViewD
     
     
     // ACTION: Clicked the add Button to add a new expense
-    @IBAction func expenseBtnClicked(_ sender: AnyObject)
+    @IBAction func addBtnClicked(_ sender: AnyObject)
     {
         self.viewForInput.isHidden = false // unhide the input view
-        rawAmountField.becomeFirstResponder()
+        formattedAmountField.becomeFirstResponder()
         resetFields() // reset all fields to default values
     }
     

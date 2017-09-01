@@ -1,10 +1,10 @@
 //
 //  incomeViewController.swift
-//  MoneyPlus
+//  PFA
 //
-//  Created by Hung Le - Vince Pham on 4/6/15.
-//  Copyright (c) 2015 Hung Le & Vince Pham. All rights reserved.
-//
+//  Created by Steven Le
+//  Copyright (c) 2017 Steven Le. All rights reserved.
+
 
 import UIKit
 
@@ -14,31 +14,18 @@ class incomeViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     
     
     @IBOutlet var mainView: UIView!
-    
     @IBOutlet weak var pageTitle: UILabel!
-    
     @IBOutlet weak var incomeTable: UITableView!
-    
     @IBOutlet weak var formattedAmountField: UITextField!
-    
     @IBOutlet weak var viewForInput: UIView!
-    
     @IBOutlet weak var CancelOrDeleteButton: UIButton!
-    
     @IBOutlet weak var dateField: UITextField!
-    
     @IBOutlet weak var datePickerView: UIView!
-    
     @IBOutlet weak var datePicker: UIDatePicker!
-    
     @IBOutlet weak var frequencyPicker: UIPickerView!
-    
     @IBOutlet weak var freqPickerView: UIView!
-    
     @IBOutlet weak var frequencyField: UITextField!
-    
     @IBOutlet weak var rawAmountField: UITextField!
-    
     @IBOutlet weak var descriptionField: UITextField!
     
     
@@ -137,9 +124,11 @@ class incomeViewController: UIViewController, UITextFieldDelegate, UITableViewDa
         }
         
         row = self.incomeArray.count - 1 - indexPath.row // later entry on top
-        let amountString = String(incomeArray[row].amount)
+        var amountString = String(incomeArray[row].amount)
         let dateString = incomeArray[row].date
-        let displayedString = NSString(format: "$%@\t\t\t\t%@", amountString, dateString)
+        let padValue = amountString.characters.count > 6 ? 0 : 0
+        amountString = amountString.padding(toLength: 24 - amountString.characters.count + padValue, withPad:" ", startingAt: 0)
+        let displayedString = NSString(format: "$%@         %@", amountString, dateString)
         
         cell!.textLabel?.text = displayedString as String
         
@@ -166,20 +155,32 @@ class incomeViewController: UIViewController, UITextFieldDelegate, UITableViewDa
         
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            row = self.incomeArray.count - 1 - indexPath.row
+            self.removeExpense()
+            self.incomeTable.reloadData() // reload tableview
+            self.updateUserDefaults() // update user default
+        }
+    }
+    
     func toggleEditMode() // Toggle the input view between new input view and edit view
     {
         editMode = editMode ? false : true
-        //CancelOrDeleteButton.titleLabel!.text = editMode ? "Delete" : "Cancel"
         CancelOrDeleteButton.setTitle( editMode ? "Delete" : "Cancel", for: UIControlState())
     }
     
     
     
     // ACTION: Clicked the add Button to add a new expense
-    @IBAction func expenseBtnClicked(_ sender: AnyObject)
+    @IBAction func addBtnClicked(_ sender: AnyObject)
     {
         self.viewForInput.isHidden = false // unhide the input view
-        rawAmountField.becomeFirstResponder()
+        formattedAmountField.becomeFirstResponder()
         resetFields() // reset all fields to default values
     }
     
@@ -271,13 +272,6 @@ class incomeViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     {
         let savedData = NSKeyedArchiver.archivedData(withRootObject: self.incomeArray)
         
-        /* debug code
-        print(self.incomeArray[0])
-        let savedIncome = NSKeyedArchiver.archivedData(withRootObject: self.incomeArray[0])
-        let decodedData = NSKeyedUnarchiver.unarchiveObject(with: savedIncome) as! Income
-        print("amount: \(decodedData.amount)")
-        */
-        
         userDefaults?.set(savedData, forKey: planningMode ? "plannedIncomeArray" : "incomeArray" )
         userDefaults?.synchronize()
     }
@@ -318,11 +312,8 @@ class incomeViewController: UIViewController, UITextFieldDelegate, UITableViewDa
     
     // ACTION: amount field is touched
     @IBAction func touchedAmountField(_ sender: UITextField) {
-        //if editMode
-        //{
-            // reset the whole field if this is edit mode, this is to ensure number formatting will not be messed up
+        // reset the whole field if this is edit mode, this is to ensure number formatting will not be messed up
         formattedAmountField.text = ""
-        //}
     }
     
     // ACTION: raw mount is being edited

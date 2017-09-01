@@ -10,7 +10,6 @@
 		B00C23A71F48CB2400480A09 /* expense.png in Resources */ = {isa = PBXBuildFile; fileRef = B00C23A11F48CB2400480A09 /* expense.png */; };
 		B00C23A81F48CB2400480A09 /* Expense.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00C23A21F48CB2400480A09 /* Expense.swift */; };
 		B00C23A91F48CB2400480A09 /* FinanceManagement.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = B00C23A31F48CB2400480A09 /* FinanceManagement.jpeg */; };
-		B00C23AA1F48CB2400480A09 /* Frequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00C23A41F48CB2400480A09 /* Frequency.swift */; };
 		B00C23AB1F48CB2400480A09 /* graph.png in Resources */ = {isa = PBXBuildFile; fileRef = B00C23A51F48CB2400480A09 /* graph.png */; };
 		B00C23AC1F48CB2400480A09 /* income.png in Resources */ = {isa = PBXBuildFile; fileRef = B00C23A61F48CB2400480A09 /* income.png */; };
 		B00C23B01F48CC7F00480A09 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B00C23AF1F48CC7F00480A09 /* Main.storyboard */; };
@@ -31,7 +30,6 @@
 		B00C23A11F48CB2400480A09 /* expense.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = expense.png; sourceTree = "<group>"; };
 		B00C23A21F48CB2400480A09 /* Expense.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Expense.swift; path = resource/Expense.swift; sourceTree = "<group>"; };
 		B00C23A31F48CB2400480A09 /* FinanceManagement.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = FinanceManagement.jpeg; sourceTree = "<group>"; };
-		B00C23A41F48CB2400480A09 /* Frequency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Frequency.swift; path = resource/Frequency.swift; sourceTree = "<group>"; };
 		B00C23A51F48CB2400480A09 /* graph.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = graph.png; sourceTree = "<group>"; };
 		B00C23A61F48CB2400480A09 /* income.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = income.png; sourceTree = "<group>"; };
 		B00C23AF1F48CC7F00480A09 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -79,7 +77,6 @@
 				B00C23C71F48CF3600480A09 /* model */,
 				B00C23A01F48CB2400480A09 /* resource */,
 				B00C23B11F48CCEA00480A09 /* AppDelegate.swift */,
-				B00C23A41F48CB2400480A09 /* Frequency.swift */,
 				B00C23AF1F48CC7F00480A09 /* Main.storyboard */,
 				B00C23CE1F48D90400480A09 /* LaunchScreen.xib */,
 				B00C239A1F48CA8B00480A09 /* Info.plist */,
@@ -202,7 +199,6 @@
 				B00C23BB1F48CCEA00480A09 /* AppDelegate.swift in Sources */,
 				B00C23C01F48CCEA00480A09 /* incomeViewController.swift in Sources */,
 				B00C23A81F48CB2400480A09 /* Expense.swift in Sources */,
-				B00C23AA1F48CB2400480A09 /* Frequency.swift in Sources */,
 				B00C23BD1F48CCEA00480A09 /* expenseViewController.swift in Sources */,
 				B00C23BF1F48CCEA00480A09 /* Income.swift in Sources */,
 			);
@@ -319,6 +315,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = AP28JPW3LW;
 				INFOPLIST_FILE = PFA/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.steventhesoftwareguy.PFA;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -332,6 +329,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = AP28JPW3LW;
 				INFOPLIST_FILE = PFA/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.steventhesoftwareguy.PFA;
 				PRODUCT_NAME = "$(TARGET_NAME)";
